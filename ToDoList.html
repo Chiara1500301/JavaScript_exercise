@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #new-task,
+        #new-task-btn,
+        #clear-btn {
+            margin: 10px;
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        #new-task {
+            width: 300px;
+        }
+
+        #new-task-btn,
+        #clear-btn {
+            cursor: pointer;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #new-task-btn:hover,
+        #clear-btn:hover {
+            background-color: #45a049;
+        }
+
+        #todo {
+            margin-top: 20px;
+            width: 300px;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #todo p {
+            cursor: pointer;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            background-color: #f9f9f9;
+        }
+    </style>
+  </head>
+  <body>
+    <h1>TODO List</h1>
+    <input id="new-task" type="text" placeholder="Cosa devi fare?" />
+    <button id="new-task-btn">Aggiungi Task</button>
+    <button id="clear-btn">Pulisci</button>
+    <div id="todo"></div>
+    <script>
+       class TODOList {
+  constructor() {
+    this.tasks = this.caricaTask();
+    this.generaTask();
+    console.log("tasks", this.tasks);
+  }
+
+  aggiungiTask(task) {
+    this.tasks.push(task);
+    this.generaNuovoTask(task);
+    console.log("tasks", this.tasks);
+    localStorage.setItem("tasks", JSON.stringify(this.tasks));
+  }
+
+  concludiTask(task) {
+    const index = this.tasks.indexOf(task);
+    this.tasks.splice(index, 1);
+    console.log(this.tasks);
+    localStorage.setItem("tasks", JSON.stringify(this.tasks));
+  }
+
+  caricaTask() {
+    const tasks = JSON.parse(localStorage.getItem("tasks")) ?? [];
+    return tasks;
+  }
+
+  generaNuovoTask(task) {
+    const todo = document.getElementById("todo");
+    const p = document.createElement("p");
+    p.appendChild(document.createTextNode(task));
+    todo.appendChild(p);
+    p.addEventListener("click", (e) => {
+      this.concludiTask(task);
+      e.srcElement.remove();
+    });
+  }
+
+  generaTask() {
+    this.tasks.forEach((task) => {
+      const todo = document.getElementById("todo");
+      const p = document.createElement("p");
+      p.appendChild(document.createTextNode(task));
+      todo.appendChild(p);
+      p.addEventListener("click", (e) => {
+        this.concludiTask(task);
+        e.srcElement.remove();
+      });
+    });
+  }
+} 
+document.addEventListener("DOMContentLoaded", () => {
+  const newTaskBtn = document.getElementById("new-task-btn");
+  const clearBtn = document.getElementById("clear-btn");
+  const input = document.getElementById("new-task");
+
+  const todoList = new TODOList();
+
+  newTaskBtn.addEventListener("click", () => {
+    todoList.aggiungiTask(input.value);
+  });
+  clearBtn.addEventListener("click", () => {
+    console.log("pulisci task");
+  });
+  input.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      todoList.aggiungiTask(input.value);
+      input.value = "";
+    }
+  });
+});
+    </script>
+  </body>
+</html>
