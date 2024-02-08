@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcolatrice</title>
+    <style>
+        @font-face {
+            font-family: 'Consolas';
+            src: url('src/fonts/CONSOLA.TTF');
+        }
+        h3{
+            color: rgb(174, 174, 174);
+            font-family:Verdana, Geneva, Tahoma, sans-serif;
+        }
+        #container{
+            margin: auto;
+            width: 190px;
+            height: 250px;
+            background-color: rgb(86, 86, 86);
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 50px;
+        }
+        #display {
+            height: 40px;
+            width: 100px;
+            margin: 10px;
+            background-color: grey;
+            text-align: center;
+            font-family: 'Consolas',monospace;
+        }
+        .buttons {
+            text-align: center;
+            padding: 2px;
+        }
+
+        .operator {
+            background-color: rgb(168, 59, 59);
+            color: white;
+            font: bold;
+            font-size: 18px;
+            border: none;
+            width: 30px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .number {
+            background-color: grey;
+            color: white;
+            font-size: 16px;
+            width: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <h3>Sharp</h3>
+        <div id="header">
+            <input type="text" id="display" readonly>
+        </div>
+        <div class="buttons">
+            <input type="button" value="1" onclick="appendNuber(1)" class="number">
+            <input type="button" value="2" onclick="appendNuber(2)" class="number">
+            <input type="button" value="3" onclick="appendNuber(3)" class="number">
+            <input type="button" value="+" onclick="appendOperator('+')" class="operator">
+        </div>
+        <div class="buttons">
+            <input type="button" value="4" onclick="appendNuber(4)" class="number">
+            <input type="button" value="5" onclick="appendNuber(5)" class="number">
+            <input type="button" value="6" onclick="appendNuber(6)" class="number">
+            <input type="button" value="-" onclick="appendOperator('-')" class="operator">
+        </div>
+        <div class="buttons">
+            <input type="button" value="7" onclick="appendNuber(7)" class="number">
+            <input type="button" value="8" onclick="appendNuber(8)" class="number">
+            <input type="button" value="9" onclick="appendNuber(9)" class="number">
+            <input type="button" value="*" onclick="appendNuber('*')" class="operator">
+        </div>
+        <div class="buttons">
+            <input type="button" value="C" onclick="clearDisplay()" class="operator">
+            <input type="button" value="0" onclick="appendNuber(0)" class="number">
+            <input type="button" value="/" onclick="appendOperator('/')" class="operator">
+            <input type="button" value="=" onclick="calculate()" class="operator">
+        </div>
+    </div>
+    <script>
+        function appendNuber(num) {
+            document.getElementById('display').value += num;
+        }
+        function appendOperator(operator) {
+            document.getElementById('display').value += operator;
+        }
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+        function calculate() {
+            let expression = document.getElementById('display').value;
+            let result = eval(expression);
+            document.getElementById('display').value = result;
+        }
+    </script>
+</body>
+
+</html>
